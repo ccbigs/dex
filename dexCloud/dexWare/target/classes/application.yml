@@ -1,0 +1,69 @@
+server:
+  port: 8688
+  servlet:
+    context-path: /dex
+
+#数据库
+spring:
+  application:
+    name: dex-ware
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.20.17.42:8848
+
+    sentinel:
+      transport:
+        #配置sentinel dashhost的地址
+        dashboard: 172.20.17.42:8086
+        #默认8719端口，加入被占用会自动从8719开始依次+1扫描，直至找到未被占用的端口
+        port: 8719
+    datasource:
+      ds1:
+        nacos:
+          server-addr: 172.20.17.42:8848
+          dataid: dex-ware
+          groupid: DEFAULT_GROUP
+          data-type: json
+          rule-type: flow
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/dex?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 7760608
+    driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false
+  redis:
+    host: 172.20.17.41
+    port: 6379
+  kafka:
+    bootstrap-servers:
+      - 172.20.17.41:9092,172.20.17.42:9092,172.20.17.43:9092 #集群节点
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer #配置序列化器
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      batch-size: 16384 #每次发送的消息数量
+      buffer-memory: 33554432
+    consumer:
+      group-id: first #group-id
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml

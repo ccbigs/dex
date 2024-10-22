@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.BonusDao">
+
+    <select id="getNoBonusWare" parameterType="int" resultType="domain.warePojo">
+        select * from ware where busman_id=#{busman_id} and ware_bonus='关闭';
+    </select>
+
+    <update id="wareAttendBonus" parameterType="domain.warePojo">
+        update ware set ware_bonusmoney=#{ware_bonusmoney},ware_bonus='开启' where id=#{id}
+    </update>
+
+    <select id="getAttendBonusWare" parameterType="int" resultType="domain.warePojo">
+        select * from ware where busman_id=#{busman_id} and ware_bonus='开启';
+    </select>
+
+    <update id="UpdateAttendBonusMessage" parameterType="domain.warePojo">
+        update ware set ware_bonusmoney=#{ware_bonusmoney} where id=#{id};
+    </update>
+
+    <update id="wareOutBonus" parameterType="int">
+        update ware set ware_bonus='关闭' where id=#{ware_id} and busman_id=#{busman_id}
+    </update>
+
+    <select id="getAllBonusOrder" parameterType="int" resultType="qo.BonusorderWareBonusPojo">
+        SELECT
+            bonusorder.id,
+            bonusorder.buy_number,
+            bonusorder.bonus_totalprice,
+            bonusorder.add_name,
+            bonusorder.add_phone,
+            bonusorder.add_postal,
+            bonusorder.add_local,
+            bonusorder.order_time,
+            bonusorder.order_state,
+            bonusorder.ware_bonusmoney,
+
+            ware.ware_name,
+            ware.ware_price,
+
+            bonus.bonus_money,
+            bonus.begindate,
+
+            standards.standards_name,
+            standards.standards_price
+        FROM `bonusorder`,ware,bonus,standards where bonusorder.ware_id=ware.id and bonusorder.bonus_id=bonus.id and bonusorder.standard_id=standards.id and bonusorder.busman_id=#{busman_id} order by bonusorder.id desc ;
+    </select>
+
+    <update id="sendWareByBusman" parameterType="String">
+        update bonusorder set order_state='运输中',bonusorder_couriernumber=#{expressNumber} where id=#{bonusOrder_id}
+    </update>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.OrderDao">
+
+    <select id="adminGetAllOrder" resultType="qo.AdminOrderPojo">
+        select
+
+            orders.id,
+            orders.orders_totalprice,
+            orders.orders_number,
+            orders.logistics_status,
+            orders.orders_date,
+            user.nickname,
+            /*商品*/
+            ware.ware_name,
+            ware.ware_price,
+            /*地址*/
+            address.local,
+            address.detail,
+            address.phone,
+            address.name,
+            /*商家*/
+            busman.bus_name,
+            busman.bus_phone,
+            busman.bus_local
+
+        from orders,ware,user,busman,address where orders.ware_id=ware.id and orders.user_id=user.id and orders.busman_id=busman.id and orders.address_id=address.id;
+    </select>
+
+    <delete id="adminDeleteOrder" parameterType="int">
+        delete from orders where id=#{id};
+    </delete>
+
+</mapper>

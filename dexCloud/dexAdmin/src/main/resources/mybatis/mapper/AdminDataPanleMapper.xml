@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.AdminDataPanleDao">
+
+    <select id="getSevenDayBonusOrder" parameterType="String" resultType="domain.bonusOrderPojo">
+        select * from bonusorder where #{tomorrow} > order_time and order_time > #{lastWeek};
+    </select>
+
+    <select id="getSevenDayOrder" parameterType="String" resultType="domain.ordersPojo">
+        select * from orders where #{tomorrow} > orders_date and orders_date > #{lastWeek};
+    </select>
+
+
+</mapper>

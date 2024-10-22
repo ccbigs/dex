@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.CategorieDao">
+
+    <select id="adminGetAllCategorie" resultType="domain.categoriePojo">
+        select * from categorie;
+    </select>
+
+    <insert id="adminAddCategorie" parameterType="domain.categoriePojo">
+        insert into categorie(categorie_name,categorie_create_time,categorie_create_admin)
+        value (#{categorie_name},#{categorie_create_time},#{categorie_create_admin})
+    </insert>
+
+    <update id="adminEditCategorie" parameterType="domain.categoriePojo">
+        update categorie set categorie_name=#{categorie_name},categorie_create_time=#{categorie_create_time},categorie_create_admin=#{categorie_create_admin} where id=#{id};
+    </update>
+
+    <delete id="adminDeleteCategorie" parameterType="int">
+        delete from categorie where id=#{id};
+    </delete>
+
+
+</mapper>

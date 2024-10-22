@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.QutientDao">
+
+    <select id="adminGetAllQutientOrder" resultType="qo.AdminQutientOrderPojo">
+        select
+            quotient_orders.id,
+            quotient_orders.busman_id,
+            quotient_orders.`month`,
+            quotient_orders.order_time,
+            quotient_orders.order_type,
+            quotient_orders.pay_price,
+            quotient_orders.ware_id,
+
+            ware.ware_name,
+
+            busman.bus_name
+        from quotient_orders,ware,busman where quotient_orders.busman_id=busman.id and quotient_orders.ware_id=ware.id;
+    </select>
+
+    <select id="adminGetAllCarousel" resultType="qo.AdminCarouselPojo">
+        select
+            hp_carousel.id,
+            hp_carousel.img,
+            hp_carousel.ware_id,
+            hp_carousel.busman_id,
+            hp_carousel.createDate,
+            hp_carousel.endDate,
+            hp_carousel.carousel_state,
+            hp_carousel.quotient_order_id,
+            hp_carousel.type_time,
+
+            ware.ware_name,
+            busman.bus_name
+
+	     from hp_carousel,ware,busman where hp_carousel.busman_id=busman.id and hp_carousel.ware_id=ware.id;
+    </select>
+
+    <update id="adminModifyCarouselState" parameterType="domain.carouselPojo">
+        update hp_carousel set carousel_state=#{carousel_state} where id=#{id};
+    </update>
+
+    <select id="adminGetAllRecommend" resultType="qo.AdminRecommendPojo">
+        select
+            hp_recommend.id,
+            hp_recommend.ware_id,
+            hp_recommend.busman_id,
+            hp_recommend.createDate,
+            hp_recommend.endDate,
+            hp_recommend.recommend_state,
+            hp_recommend.quotient_order_id,
+            hp_recommend.type_time,
+
+            ware.ware_name,
+            busman.bus_name
+
+	     from hp_recommend,ware,busman where hp_recommend.busman_id=busman.id and hp_recommend.ware_id=ware.id;
+
+    </select>
+
+
+    <update id="adminModifyRecommendState" parameterType="domain.phRecommendPojo">
+        update hp_recommend set recommend_state=#{recommend_state} where id=#{id};
+    </update>
+
+    <select id="adminGetAllQuitentPrice" resultMap="quitentPrice">
+        select dex_p_carousel,dex_p_recommend from system where id=1;;
+    </select>
+
+
+    <update id="adminModifyQuitentPrice" parameterType="domain.QuotientPricePojo">
+        update system set dex_p_carousel=#{carousel_price},dex_p_recommend=#{recommend_price} where id=1;
+    </update>
+
+    <!--转换-->
+    <resultMap id="quitentPrice" type="domain.QuotientPricePojo">
+        <result column="dex_p_carousel" property="carousel_price"/>
+        <result column="dex_p_recommend" property="recommend_price"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexStore.dao.CartDao">
+
+    <!--查看购物车中是否存在该商品规格-->
+    <select id="judgeWareIdNumber" parameterType="int" resultType="int">
+        select COUNT(*) from cart where ware_id=#{ware_id} and standard_id=#{standard_id} and user_id=#{user_id};
+    </select>
+
+    <!--购物车已存在这种商品规格，点击进行删除-->
+    <update id="updateCartNumber" parameterType="int">
+        update cart set cart_number=cart_number+#{number} where ware_id=#{ware_id} and standard_id=#{standard_id} and user_id=#{user_id};
+    </update>
+
+    <!--insert插入条件判断，如果存在原有-->
+    <insert id="addCartWare" parameterType="int">
+        insert into cart(ware_id,cart_number,user_id,standard_id) value(#{ware_id},#{number},#{user_id},#{standard_id})
+    </insert>
+
+    <!--用户查看自己的购物车信息-->
+    <select id="getUserCartWare" parameterType="int" resultType="domain.cartPojo">
+        select
+            ware.busman_id,
+            ware.ware_name,
+            ware.ware_describe,
+            ware.ware_connect,
+            ware.ware_img1,
+            ware.ware_active,
+            ware.ware_activeDiscount,
+            ware.ware_activeFullPrice,
+            ware.ware_activeFullReduction,
+
+            standards.standards_name,
+            standards_price as ware_price,
+            standards_number as ware_number,
+
+            cart.id,
+            cart.cart_number,
+            cart.user_id,
+            cart.standard_id,
+            cart.ware_id
+
+        from ware,cart,standards where ware.id=cart.ware_id and standards.id=cart.standard_id and cart.user_id=#{user_id} and ware.ware_state='售卖中';
+    </select>
+
+    <!--用户更新数据库中的商品数量,用户在购物车里面添加商品数量-->
+    <update id="userUpdateCartNumber" parameterType="int">
+        update cart set cart_number=#{cart_number} where id=#{cart_id};
+    </update>
+
+    <!--用户移除购物车中的商品信息-->
+    <delete id="removeUserCartWare" parameterType="int">
+        delete from cart where user_id=#{user_id} and id=#{cart_id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.WaresDao">
+
+    <insert id="busmanAddWare" parameterType="domain.warePojo">
+        insert into ware(busman_id,ware_name,ware_totalnumber,ware_number,ware_describe,ware_connect,ware_price
+        ,ware_img1,ware_img2,ware_img3,ware_img4,ware_img5,ware_date,categorie_name,categorie_id)
+        value (#{busman_id},#{ware_name},#{ware_totalnumber},0,#{ware_describe},#{ware_connect},0
+        ,#{ware_img1},#{ware_img2},#{ware_img3},#{ware_img4},#{ware_img5},#{ware_date},#{categorie_name},#{categorie_id})
+    </insert>
+
+    <select id="getWareByBusman" parameterType="int" resultType="qo.ware_orderPojo">
+        select * from ware where ware.busman_id=#{busman_id} order by id desc ;
+    </select>
+
+    <select id="getWareTotalPriceByBusman" parameterType="int" resultType="domain.ordersPojo">
+        select busman_id,ware_id ,SUM(orders_totalprice)orders_totalprice FROM orders where busman_id=#{busman_id} GROUP BY ware_id;
+    </select>
+
+    <update id="busmanUpdateWareMessage" parameterType="qo.ware_orderPojo">
+        update ware set ware_name=#{ware_name},ware_describe=#{ware_describe},
+        ware_connect=#{ware_connect} where id=#{id}
+    </update>
+
+    <update id="busmanUpdateWareNumber" parameterType="int">
+        update ware set ware_totalnumber=ware_totalnumber+#{number},ware_number=ware_number+#{number} where id=#{id}
+    </update>
+
+    <update id="busmanUnderCarriageWare" parameterType="int">
+        update ware set ware_state='已下架' where id=#{id}
+    </update>
+
+    <update id="busmanGroundWare" parameterType="int">
+         update ware set ware_state='售卖中' where id=#{id}
+    </update>
+
+    <select id="busmanAlreadyGroundWare" parameterType="int" resultType="domain.warePojo">
+        select * from ware where busman_id=#{busman_id} and ware_state='售卖中';
+    </select>
+
+</mapper>

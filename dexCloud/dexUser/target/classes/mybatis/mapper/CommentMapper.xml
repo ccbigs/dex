@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.CommentDao">
+
+    <select id="getCommentByWareId" parameterType="int" resultType="domain.commentPojo">
+        select * from comment where ware_id = #{wareId};
+    </select>
+
+    <insert id="publicComment" parameterType="domain.commentPojo">
+        insert into comment(user_id,user_nickname,user_headimage,orders_id,ware_id,comment_rate,comment_connect,comment_date,comment_img1,comment_img2,comment_img3)
+        value (#{user_id},#{user_nickname},#{user_headimage},#{orders_id},#{ware_id},#{comment_rate},#{comment_connect},#{comment_date},#{comment_img1},#{comment_img2},#{comment_img3})
+    </insert>
+
+    <select id="getCommentByUser" parameterType="int" resultType="qo.comment_warePojo">
+        select
+            comment.id,
+            comment.user_id,
+            comment.orders_id,
+            comment.ware_id,
+            comment.user_nickname,
+            comment.user_headimage,
+            comment.comment_rate,
+            comment.comment_connect,
+            comment.comment_date,
+            comment.comment_img1,
+            comment.comment_img2,
+            comment.comment_img3,
+            ware.ware_name,
+            ware.ware_img1
+        from `comment`,ware where comment.ware_id=ware.id and comment.user_id=#{user_id}
+
+    </select>
+
+    <delete id="removeUserComment" parameterType="int">
+        delete from comment where id=#{comment_id}
+    </delete>
+
+</mapper>

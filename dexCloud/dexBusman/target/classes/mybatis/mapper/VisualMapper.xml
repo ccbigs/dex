@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.VisualDao">
+
+    <select id="salesVolume" parameterType="int" resultType="domain.ordersPojo">
+        select * from orders where busman_id=#{busman_id}
+    </select>
+
+    <select id="getWareByBusman" parameterType="int" resultType="domain.warePojo">
+        select * from ware where busman_id=#{busman_id};
+    </select>
+
+    <select id="getOrderAddressWare" parameterType="int" resultType="qo.order_add_warePojo">
+         select
+
+        orders.id,
+        orders.user_id,
+        orders.busman_id,
+        orders.ware_id,
+		orders.address_id,
+		orders.orders_totalprice,
+        orders.orders_number,
+        orders.logistics_status,
+        orders.orders_date,
+        address.local,
+        address.detail,
+        address.phone,
+        address.name,
+		address.postal,
+        ware.ware_name,
+        ware.ware_price,
+        ware.ware_img1
+
+    from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.busman_id=#{busman_id};
+
+    </select>
+
+    <select id="getOrderByFive" parameterType="int" resultType="domain.ordersPojo">
+        select
+            orders.id,
+            orders.ware_id,
+            orders.orders_date,
+            orders.orders_number
+        from orders inner join ware on orders.ware_id=ware.id where orders.busman_id=#{busman_id};
+    </select>
+</mapper>

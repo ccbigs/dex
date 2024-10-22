@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexStore.dao.StandardDao">
+
+    <select id="getStandardByWare" parameterType="int" resultType="domain.standardsPojo">
+        select * from standards where ware_id=#{ware_id};
+    </select>
+
+    <update id="reduceStandardNumberByUserBuyWare" parameterType="int">
+        update standards set standards_number=standards_number-#{buy_number} where id=#{standard_id} and standards_number>=#{buy_number};
+    </update>
+
+</mapper>

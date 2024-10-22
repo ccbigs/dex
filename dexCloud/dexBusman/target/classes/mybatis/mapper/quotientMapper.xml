@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.QuotientDao">
+    <select id="getOnlineCarousel" resultType="domain.carouselPojo">
+        select * from hp_carousel where carousel_state='启用';
+    </select>
+
+    <select id="getOnlineRecommend" resultType="domain.warePojo">
+        select ware.id
+        ,ware.busman_id
+        ,ware.ware_name
+        ,ware.ware_number
+        ,ware.ware_describe
+        ,ware.ware_connect
+        ,ware.ware_price
+        ,ware.ware_img1
+        ,ware.ware_img2
+        ,ware.ware_img3
+        ,ware.ware_img4
+        ,ware.ware_img5
+         from ware,hp_recommend where hp_recommend.ware_id = ware.id and hp_recommend.recommend_state='启用';
+    </select>
+
+    <select id="getQuotientPrice" resultMap="quotientPrice">
+        select dex_p_carousel,dex_p_recommend from system where id=1;
+    </select>
+
+    <insert id="createOrderByBusman" parameterType="domain.QuotientOrderPojo" useGeneratedKeys="true" keyProperty="id">
+        insert into quotient_orders(busman_id,pay_price,order_time,month,order_type,ware_id)
+        value (#{busman_id},#{pay_price},#{order_time},#{month},#{order_type},#{ware_id})
+    </insert>
+
+    <insert id="insertCarouselByBusman" parameterType="domain.carouselPojo">
+        insert into hp_carousel(img,ware_id,busman_id,createDate,endDate,carousel_state,quotient_order_id)
+        value (#{img},#{ware_id},#{busman_id},#{createDate},#{endDate},#{carousel_state},#{quotient_order_id})
+    </insert>
+
+    <insert id="insertRecommendByBusman" parameterType="domain.phRecommendPojo">
+        insert into hp_recommend (ware_id,busman_id,createdate,enddate,recommend_state,quotient_order_id)
+        values (#{ware_id},#{busman_id},#{createdate},#{enddate},#{recommend_state},#{quotient_order_id});
+    </insert>
+
+    <select id="getDidBuyCarousel" parameterType="int" resultType="qo.carousel_ware_orderDTO">
+         select
+		    hp_carousel.id,
+            hp_carousel.img,
+            hp_carousel.ware_id,
+            hp_carousel.busman_id,
+            hp_carousel.createDate,
+            hp_carousel.endDate,
+            hp_carousel.carousel_state,
+            hp_carousel.quotient_order_id,
+            hp_carousel.type_time,
+            ware.ware_name,
+            ware.ware_img1,
+            quotient_orders.pay_price,
+            quotient_orders.order_time,
+            quotient_orders.month,
+            quotient_orders.order_type
+        from hp_carousel,ware,quotient_orders where hp_carousel.busman_id=#{busman_id} and hp_carousel.quotient_order_id=quotient_orders.id and hp_carousel.ware_id=ware.id;
+    </select>
+
+    <select id="getDidBuyRecommend" parameterType="int" resultType="qo.RecommendWareOrderDTO">
+         select
+            hp_recommend.id,
+            hp_recommend.ware_id,
+            hp_recommend.busman_id,
+            hp_recommend.createDate,
+            hp_recommend.endDate,
+            hp_recommend.recommend_state,
+            hp_recommend.quotient_order_id,
+            hp_recommend.type_time,
+            ware.ware_name,
+            ware.ware_img1,
+            quotient_orders.pay_price,
+            quotient_orders.order_time,
+            quotient_orders.month,
+            quotient_orders.order_type
+        from hp_recommend,ware,quotient_orders where hp_recommend.busman_id=#{busman_id} and hp_recommend.quotient_order_id=quotient_orders.id and hp_recommend.ware_id=ware.id;
+    </select>
+
+
+    <resultMap id="quotientPrice" type="domain.QuotientPricePojo">
+        <result column="dex_p_carousel" property="carousel_price"/>
+        <result column="dex_p_recommend" property="recommend_price"/>
+    </resultMap>
+</mapper>

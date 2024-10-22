@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.AddressDao">
+
+    <select id="getUserAddress" resultType="domain.addressPojo" parameterType="int">
+        select * from address where user_id=#{user_id};
+    </select>
+
+    <insert id="addUserAddress" parameterType="domain.addressPojo">
+        insert into address(user_id,local,detail,phone,name,postal)
+        value (#{user_id},#{local},#{detail},#{phone},#{name},#{postal})
+    </insert>
+
+    <delete id="delUserAddress" parameterType="int">
+        delete from address where id=#{address_id}
+    </delete>
+
+    <update id="modifyAddress" parameterType="domain.addressPojo">
+        update address set local=#{local},detail=#{detail},phone=#{phone},name=#{name},postal=#{postal} where id=#{id}
+    </update>
+
+</mapper>

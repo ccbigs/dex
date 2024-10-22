@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.CommentDao">
+
+    <select id="adminGetAllComment" resultType="qo.comment_warePojo">
+        select
+            comment.id,
+            comment.user_id,
+            comment.orders_id,
+            comment.ware_id,
+            comment.user_nickname,
+            comment.user_headimage,
+            comment.comment_rate,
+            comment.comment_connect,
+            comment.comment_date,
+            comment.comment_img1,
+            comment.comment_img2,
+            comment.comment_img3,
+            ware.ware_name,
+            ware.ware_img1
+        from `comment`,ware where comment.ware_id=ware.id;
+    </select>
+
+    <delete id="adminDeleteComment" parameterType="int">
+        delete from comment where id=#{id};
+    </delete>
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.LoginRegisterDao">
+
+    <select id="login" parameterType="String" resultType="domain.userPojo">
+        select * from user where account=#{account};
+    </select>
+
+    <select id="phoneHas" parameterType="String" resultType="Integer">
+        select count(phone) from `user` where phone=#{phone}
+    </select>
+
+    <insert id="register" parameterType="domain.userPojo">
+        insert into user(account,password,phone,birthday,nickname,headimage,area,sex) value(#{account},#{password},
+        #{phone},#{birthday},#{nickname},#{headimage},#{area},#{sex})
+    </insert>
+
+
+
+</mapper>

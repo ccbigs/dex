@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.LoginRegisterDao">
+
+    <select id="busmanLogin" parameterType="String" resultType="domain.busmanPojo">
+        select * from busman where bus_account=#{account}
+    </select>
+
+    <insert id="busmanRegister" parameterType="domain.busmanPojo">
+        insert into busman(bus_account,bus_password,bus_phone,bus_name,bus_idcard,bus_busman_state,bus_register_time,bus_lasttime,bus_local)
+        value (#{bus_account},#{bus_password},#{bus_phone},#{bus_name},#{bus_idcard},#{bus_busman_state},#{bus_register_time},#{bus_lasttime},#{bus_local})
+    </insert>
+
+    <update id="updateBusmanLoginTime" parameterType="domain.busmanPojo">
+        update busman set bus_lasttime=#{bus_lasttime} where id=#{id}
+    </update>
+
+</mapper>

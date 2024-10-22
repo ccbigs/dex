@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexWare.dao.DetailWareDao">
+
+    <select id="getWareById" parameterType="int" resultType="domain.warePojo">
+        select * from ware where id= #{wareId} and ware_state="售卖中";
+    </select>
+
+    <update id="reduceWareForWareDetail" parameterType="int">
+        update ware set ware_number=ware_number-#{num} where id=#{ware_id};
+    </update>
+
+    <select id="getWareActive" parameterType="int" resultType="domain.activePojo">
+        select * from active where ware_id=#{ware_id};
+    </select>
+
+    <select id="getBusmanAddress" parameterType="int" resultType="String">
+        select busman.bus_local from ware,busman where ware.id=#{ware_id} and ware.busman_id=busman.id;
+    </select>
+
+</mapper>

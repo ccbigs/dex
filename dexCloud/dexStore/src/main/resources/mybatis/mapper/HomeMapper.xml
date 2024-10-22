@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexStore.dao.HomeDao">
+
+    <select id="getAllCarousel" resultType="domain.carouselPojo">
+        select * from hp_carousel where carousel_state='启用';
+    </select>
+
+    <select id="getAllNew" resultType="domain.warePojo">
+        select ware.id
+        ,ware.busman_id
+        ,ware.ware_name
+        ,ware.ware_number
+        ,ware.ware_describe
+        ,ware.ware_connect
+        ,ware.ware_price
+        ,ware.ware_img1
+        ,ware.ware_img2
+        ,ware.ware_img3
+        ,ware.ware_img4
+        ,ware.ware_img5
+         from ware,hp_new where hp_new.ware_id = ware.id;
+    </select>
+
+    <select id="getAllHot" resultType="domain.warePojo">
+        SELECT * FROM `ware` where ware_state='售卖中' order by ware_totalnumber-ware_number DESC limit 10;
+    </select>
+
+    <select id="getAllRecommend" resultType="domain.warePojo">
+        select ware.id
+        ,ware.busman_id
+        ,ware.ware_name
+        ,ware.ware_number
+        ,ware.ware_describe
+        ,ware.ware_connect
+        ,ware.ware_price
+        ,ware.ware_img1
+        ,ware.ware_img2
+        ,ware.ware_img3
+        ,ware.ware_img4
+        ,ware.ware_img5
+         from ware,hp_recommend where hp_recommend.ware_id = ware.id and recommend_state ='启用';
+    </select>
+
+
+    <select id="getAllFootTab" resultMap="resultTab">
+        select * from system_tab;
+    </select>
+
+    <resultMap id="resultTab" type="domain.tabPojo">
+        <id column="id" property="id"/>
+        <result column="tab_name" property="tabName"/>
+        <result column="info_id" property="infoId"/>
+        <result column="tab_type" property="tabType"/>
+        <result column="tab_chain" property="tabChain"/>
+        <result column="tab_createtime" property="tabCreatetime"/>
+    </resultMap>
+
+</mapper>

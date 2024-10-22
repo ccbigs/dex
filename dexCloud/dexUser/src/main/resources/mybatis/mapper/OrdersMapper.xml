@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.OrdersDao">
+
+    <insert id="setOrderForWareDetail" parameterType="domain.ordersPojo">
+        insert into orders(user_id,busman_id,ware_id,address_id,orders_totalprice,orders_number,
+        logistics_status,orders_date,active_type,active_detail,active_reduction,standard_name,unit_price)
+        value (#{user_id},#{busman_id},#{ware_id},#{address_id},#{orders_totalprice},#{orders_number},
+        #{logistics_status},#{orders_date},#{active_type},#{active_detail},#{active_reduction},#{standard_name},#{unit_price})
+    </insert>
+
+    <select id="getUserOrder" resultType="qo.order_add_warePojo" parameterType="int">
+    select
+
+        orders.id,
+        orders.user_id,
+        orders.busman_id,
+        orders.ware_id,
+		orders.address_id,
+		orders.orders_totalprice,
+        orders.orders_number,
+        orders.logistics_status,
+        orders.orders_date,
+        orders.standard_name,
+        orders.unit_price,
+        address.local,
+        address.detail,
+        address.phone,
+        address.name,
+		address.postal,
+        ware.ware_name,
+        ware.ware_price,
+        ware.ware_img1
+
+    from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.user_id=#{user_id}
+    order by orders.id desc ;
+    </select>
+
+    <select id="getUserDidOrder" resultType="qo.order_add_warePojo" parameterType="int">
+    select
+
+        orders.id,
+        orders.user_id,
+        orders.busman_id,
+        orders.ware_id,
+		orders.address_id,
+		orders.orders_totalprice,
+        orders.orders_number,
+        orders.logistics_status,
+        orders.orders_date,
+        address.local,
+        address.detail,
+        address.phone,
+        address.name,
+		address.postal,
+        ware.ware_name,
+        ware.ware_price,
+        ware.ware_img1
+
+    from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.user_id=#{user_id} and orders.logistics_status='已签收';
+    </select>
+
+
+    <select id="getUserTransitOrder" resultType="qo.order_add_warePojo" parameterType="int">
+    select
+
+        orders.id,
+        orders.user_id,
+        orders.busman_id,
+        orders.ware_id,
+		orders.address_id,
+		orders.orders_totalprice,
+        orders.orders_number,
+        orders.logistics_status,
+        orders.orders_date,
+        address.local,
+        address.detail,
+        address.phone,
+        address.name,
+		address.postal,
+        ware.ware_name,
+        ware.ware_price,
+        ware.ware_img1
+
+    from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.user_id=#{user_id} and orders.logistics_status='运输中';
+    </select>
+
+
+    <select id="getUserReturnOrder" resultType="qo.order_add_warePojo" parameterType="int">
+    select
+
+        orders.id,
+        orders.user_id,
+        orders.busman_id,
+        orders.ware_id,
+		orders.address_id,
+		orders.orders_totalprice,
+        orders.orders_number,
+        orders.logistics_status,
+        orders.orders_date,
+        address.local,
+        address.detail,
+        address.phone,
+        address.name,
+		address.postal,
+        ware.ware_name,
+        ware.ware_price,
+        ware.ware_img1
+
+    from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.user_id=#{user_id} and orders.logistics_status='退换中';
+    </select>
+
+    <update id="cancelOrder" parameterType="int">
+        update orders set logistics_status='已取消' where id=#{order_id}
+    </update>
+
+    <update id="cancelStandard" parameterType="qo.order_add_warePojo">
+        update standards set standards_number=standards_number+#{orders_number} where ware_id=#{ware_id}
+        and standards_name=#{standard_name}
+    </update>
+
+    <update id="setTransitToDid" parameterType="int">
+        update orders set logistics_status='已签收' where id=#{order_id}
+    </update>
+
+    <update id="transitToReturn" parameterType="int">
+        update orders set logistics_status='退换中' where id=#{order_id}
+    </update>
+
+    <update id="busmanSendWare" parameterType="int">
+        update orders set logistics_status='运输中' where id=#{id}
+    </update>
+
+    <update id="busmanSignWare" parameterType="int">
+        update orders set logistics_status='已关闭' where id=#{id}
+    </update>
+
+    <update id="cancelWare" parameterType="int">
+        update ware set ware_number=ware_number+#{ware_number} where id=#{ware_id}
+    </update>
+
+</mapper>

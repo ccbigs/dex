@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/dex-api-commom/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dex-api-commom/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexAdmin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexAdmin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexBusman/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexBusman/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexStore/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexStore/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexUser/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexUser/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexWare/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/dexWare/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

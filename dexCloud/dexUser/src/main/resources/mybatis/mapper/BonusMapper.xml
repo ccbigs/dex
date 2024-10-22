@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.BonusDao">
+
+    <insert id="userAttendBonusByWare" parameterType="domain.bonusPojo" useGeneratedKeys="true" keyProperty="id">
+        insert into bonus(ware_id,user_id,begindate,enddate,bonus_money)
+        value (#{ware_id},#{user_id},#{begindate},#{enddate},#{bonus_money})
+    </insert>
+
+    <update id="updateWareState" parameterType="int">
+        update ware set ware_state='秒杀中' where id=#{ware_id} and ware_state='售卖中'
+    </update>
+
+    <select id="getBonusWareMessage" parameterType="int" resultType="domain.warePojo">
+        select * from ware where id=#{ware_id}
+    </select>
+
+    <select id="getBonusByWare" parameterType="int" resultType="domain.bonusPojo">
+        select * from bonus where id=#{bonus_id} and ware_id=#{ware_id}
+    </select>
+
+    <select id="getBonusByStandards" parameterType="int" resultType="domain.standardsPojo">
+        select * from standards where ware_id=#{ware_id};
+    </select>
+
+    <select id="getUserBonusDate" parameterType="int" resultType="qo.BonusBonusOrderPojo">
+        SELECT * from bonus,(select bonus_id ,SUM(ware_bonusmoney)ware_bonusmoney,SUM(bonusorder.buy_number) as sale_number FROM bonusorder  GROUP BY bonus_id)
+        as temp where bonus.user_id=#{user_id} and bonus.id=temp.bonus_id;
+    </select>
+
+    <select id="getUserProfit" parameterType="int" resultType="domain.bonusOrderPojo">
+        SELECT bonusorder.buy_number,bonusorder.ware_bonusmoney,bonusorder.order_state from bonus,bonusorder
+        where bonus.user_id=#{user_id} and bonus.id=bonusorder.bonus_id;
+    </select>
+</mapper>

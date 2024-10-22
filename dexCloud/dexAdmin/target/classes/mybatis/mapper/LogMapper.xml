@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.LogDao">
+
+    <update id="adminUpdateLastTime" parameterType="domain.adminPojo">
+        update admin set last_time=#{last_time} where id=#{id};
+    </update>
+
+    <insert id="adminLog" parameterType="domain.logPojo">
+        insert into log(user_id,`user`,behavior,user_type,`time`,InternetProtocol)
+        value (#{user_id},#{user},#{behavior},#{user_type},#{time},#{InternetProtocol})
+    </insert>
+
+    <select id="adminGetAllLog" resultType="domain.logPojo">
+        select * from log;
+    </select>
+
+</mapper>

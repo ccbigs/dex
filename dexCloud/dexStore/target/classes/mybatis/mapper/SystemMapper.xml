@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexStore.dao.SystemDao">
+
+    <select id="getEnableSystem" resultMap="SystemPojo">
+        select * from system where dex_state="启用";
+    </select>
+
+    <update id="updateUsuallySystem">
+        update system set dex_name=#{dexName},dex_phone=#{dexPhone},dex_search=#{dexSearch} where id=#{id};
+    </update>
+
+    <update id="updateAllSystem">
+        update system set dex_record=#{dexRecord},dex_logo=#{dexLogo},dex_email=#{dexEmail},dex_userphone=#{dexUserPhone},
+        dex_remarks=#{dexRemarks} where id=#{id}
+    </update>
+
+    <select id="getDexPhone" resultType="String">
+        select dex_phone from system where system.dex_state='启用';
+    </select>
+
+    <select id="getDexSearch" resultType="String">
+        select dex_search from system where system.dex_state='启用';
+    </select>
+
+    <select id="getDexLogo" resultType="String">
+        select dex_logo from system where system.dex_state='启用';
+    </select>
+
+    <resultMap id="SystemPojo" type="domain.systemPojo">
+        <id column="id" property="id"/>
+        <result column="dex_name" property="dexName"/>
+        <result column="dex_message" property="dexMessage"/>
+        <result column="dex_p_carousel" property="dexCarousel"/>
+        <result column="dex_p_recommend" property="dexRecommend"/>
+        <result column="dex_phone" property="dexPhone"/>
+        <result column="dex_search" property="dexSearch"/>
+        <result column="dex_record" property="dexRecord"/>
+        <result column="dex_logo" property="dexLogo"/>
+        <result column="dex_email" property="dexEmail"/>
+        <result column="dex_userphone" property="dexUserPhone"/>
+        <result column="dex_createtime" property="dexCreateTime"/>
+        <result column="dex_begintime" property="dexBeginTime"/>
+        <result column="dex_state" property="dexState"/>
+        <result column="dex_remarks" property="dexRemarks"/>
+    </resultMap>
+
+</mapper>

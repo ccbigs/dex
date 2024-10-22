@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexUser.dao.UserDao">
+
+    <update id="updateUserInfo" parameterType="domain.userPojo">
+        update user set birthday=#{birthday},nickname=#{nickname},headimage=#{headimage},area=#{area},sex=#{sex} where id=#{id}
+    </update>
+
+    <update id="submitPass" parameterType="domain.userPojo">
+        update user set password=#{password} where id=#{id}
+    </update>
+
+    <update id="submitIdCard" parameterType="domain.userPojo">
+        update user set idcard=#{idcard},realname=#{realname} where id=#{id}
+    </update>
+
+    <update id="submitEmail" parameterType="domain.userPojo">
+        update user set email=#{email} where id=#{id}
+    </update>
+
+    <select id="phoneExit" parameterType="String" resultType="domain.userPojo">
+        select * from `user` where phone=#{phone}
+    </select>
+
+    <update id="submitPhone" parameterType="domain.userPojo">
+        update user set phone=#{phone},account=#{phone} where id=#{id}
+    </update>
+
+    <select id="getUpdateUserMessage" parameterType="int" resultType="domain.userPojo">
+        select * from `user` where id=#{user_id}
+    </select>
+
+</mapper>

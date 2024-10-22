@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexWare.dao.BonusWareDao">
+
+    <update id="closeWare" parameterType="domain.warePojo">
+        update ware set ware_state='售卖中',ware_number=#{ware_number} where id=#{id}
+    </update>
+
+    <update id="closeBonus" parameterType="int">
+        update bonus set bonus_state='关闭' where id=#{bonus_id}
+    </update>
+
+    <insert id="TouristBuyBonusWare" parameterType="domain.bonusOrderPojo">
+        insert into bonusorder(bonus_id,user_id,busman_id,ware_id,buy_number,bonus_totalprice,add_name,
+        add_phone,add_postal,add_local,order_time,ware_bonusmoney,busman_local,standard_id)
+        value (#{bonus_id},#{user_id},#{busman_id},#{ware_id},#{buy_number},#{bonus_totalprice},#{add_name},
+        #{add_phone},#{add_postal},#{add_local},#{order_time},#{ware_bonusmoney},#{busman_local},#{standard_id})
+    </insert>
+
+    <update id="closeStandard" parameterType="int">
+        update standards set standards_number=#{standards_number} where id=#{standard_id};
+    </update>
+</mapper>

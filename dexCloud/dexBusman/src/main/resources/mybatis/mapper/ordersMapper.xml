@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.OrdersDao">
+
+    <select id="busmanGetOrders" resultType="qo.order_add_warePojo" parameterType="int">
+        select
+
+            orders.id,
+            orders.user_id,
+            orders.busman_id,
+            orders.ware_id,
+            orders.address_id,
+            orders.orders_totalprice,
+            orders.orders_number,
+            orders.logistics_status,
+            orders.orders_date,
+            orders.standard_name,
+            orders.unit_price,
+            address.local,
+            address.detail,
+            address.phone,
+            address.name,
+            address.postal,
+            ware.ware_name,
+            ware.ware_price,
+            ware.ware_img1
+
+        from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.busman_id=#{busman_id} order by id DESC;
+        </select>
+
+    <update id="busmanSendWare" parameterType="String">
+        update orders set logistics_status='运输中',order_couriernumber=#{expressNumber} where id=#{id}
+    </update>
+
+    <update id="busmanSignWare" parameterType="int">
+        update orders set logistics_status='已关闭' where id=#{id}
+    </update>
+
+    <select id="busmanSearchOrder" parameterType="int" resultType="qo.order_add_warePojo">
+        select
+
+            orders.id,
+            orders.user_id,
+            orders.busman_id,
+            orders.ware_id,
+            orders.address_id,
+            orders.orders_totalprice,
+            orders.orders_number,
+            orders.logistics_status,
+            orders.orders_date,
+            orders.order_couriernumber,
+            address.local,
+            address.detail,
+            address.phone,
+            address.name,
+            address.postal,
+            ware.ware_name,
+            ware.ware_price,
+            ware.ware_img1
+
+        from orders,ware,address where orders.ware_id=ware.id and orders.address_id=address.id and orders.id=#{order_id};
+    </select>
+
+    <select id="busmanSearchBonusOrder" parameterType="int" resultType="qo.BonusOrderWarePojo">
+        select
+            bonusorder.id,
+            bonusorder.buy_number,
+            bonusorder.bonus_totalprice,
+            bonusorder.add_name,
+            bonusorder.add_phone,
+            bonusorder.add_local,
+            bonusorder.add_postal,
+            bonusorder.order_time,
+            bonusorder.ware_bonusmoney,
+            bonusorder.order_state,
+
+            bonusorder.busman_local,
+            bonusorder.busman_phone,
+            bonusorder.busman_name,
+
+            /*秒杀订单快递单号*/
+            bonusorder.bonusorder_couriernumber,
+
+
+            ware.ware_name,
+            ware.ware_price,
+            ware.ware_img1
+        from bonusorder,ware where bonusorder.ware_id=ware.id and bonusorder.id = #{order_id} and bonusorder.busman_id = #{busman_id};
+    </select>
+
+
+</mapper>

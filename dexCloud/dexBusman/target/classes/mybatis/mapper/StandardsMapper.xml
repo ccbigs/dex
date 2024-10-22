@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexBusman.dao.StandardsDao">
+
+    <insert id="AddStandards" parameterType="domain.standardsPojo">
+        insert into standards(ware_id,busman_id,standards_name,standards_number,standards_total,standards_price,create_time)
+        value(#{ware_id},#{busman_id},#{standards_name},#{standards_number},#{standards_total},#{standards_price},#{create_time})
+    </insert>
+
+    <update id="updateWareNumber" parameterType="int">
+        update ware set ware_totalnumber=ware_totalnumber+#{number},ware_number=ware_number+#{number} where id=#{ware_id};
+    </update>
+
+    <select id="getStandardByBusman" parameterType="int" resultType="qo.StandardWarePojo">
+        select
+            standards.id,
+            standards.ware_id,
+            standards.busman_id,
+            standards.standards_name,
+            standards.standards_number,
+            standards.standards_total,
+            standards.standards_price,
+            standards.create_time,
+
+            ware.ware_name
+        from standards,ware where	standards.ware_id = ware.id and standards.busman_id = #{busman_id};
+    </select>
+
+    <update id="busmanAddStandardNumber" parameterType="int">
+        update standards set standards_number=standards_number+#{number},standards_total=standards_total+#{number}
+        where id=#{standard_id}
+    </update>
+
+    <delete id="deleteStandardByBusman" parameterType="int">
+        delete from standards where id=#{standard_id}
+    </delete>
+
+    <update id="updateWarePrice" parameterType="domain.standardsPojo">
+         update ware set ware_price=(
+         case
+         when ware_price=0 then #{standards_price}
+         when ware_price>#{standards_price} then #{standards_price}
+         else ware_price
+         end)
+         where id=#{ware_id};
+    </update>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dex.dao.PictureVerificationDao">
+
+    <select id="pictureVerification" parameterType="String" resultType="domain.phimgPojo">
+        select * from pv_img order By Rand() Limit 9
+    </select>
+
+    <select id="GetAllpictureVerification" resultType="domain.phimgPojo">
+        select * from pv_img;
+    </select>
+
+    <insert id="AddPictureVerification" parameterType="domain.phimgPojo">
+        insert into pv_img(img_url,img_type) value(#{img_url},#{img_type});
+    </insert>
+
+    <delete id="adminDetelePicture" parameterType="int">
+        delete from pv_img where id=#{Picture_id};
+    </delete>
+
+    <update id="adminEditPictureVerification" parameterType="domain.phimgPojo">
+        update pv_img set img_url=#{img_url},img_type=#{img_type} where id=#{id};
+    </update>
+
+</mapper>

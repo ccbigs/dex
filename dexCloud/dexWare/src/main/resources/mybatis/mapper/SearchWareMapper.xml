@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dexWare.dao.SearchWareDao">
+
+    <select id="getPromptWare" parameterType="String" resultType="domain.warePojo">
+        select * from ware where ware_name like "%"#{ware_name}"%" and ware_state='售卖中' and ware_number > 0;
+    </select>
+
+    <select id="getSearchWares" parameterType="String" resultType="domain.warePojo">
+        select * from ware where ware_name like "%"#{ware_name}"%" and ware_state='售卖中' and ware_number > 0;
+    </select>
+
+</mapper>
